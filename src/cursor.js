@@ -23,6 +23,15 @@ class Cursor {
     listen(operation, cb){
         this.db.listeners[this.table.name][operation].push(cb);
     }
+    createIndex(key){
+        this.table.createIndex(key);
+    }
+    getByIndex(index, value){
+        if(!this.table.indexes){
+            throw new Error(`Secondary index "${index}" does not exist.`);
+        }
+        return this.table.indexes[index][value];
+    }
 }
 
 function compareObjects(record, props){

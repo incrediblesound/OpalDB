@@ -21,23 +21,31 @@ const james = new Person({
     hobbies: ['art', 'music']
 })
 
+const james2 = new Person({
+    name: 'James',
+    age: 18,
+    address: { city: 'Sunnyvale', state: 'CA' },
+    hobbies: ['magic', 'WOW']
+})
+
 const bob = new Person({
-    name: 'Bob',
+    name: 'Bob Shmobin',
     age: 21,
     address: { city: 'Palo Alto', state: 'CA' },
     hobbies: ['sports', 'dancing']
 })
 
 db.addTable('people');
-db.in('people').listen('insert', (record) => {
-    console.log(record);
-})
+// db.in('people').listen('insert', (record) => {
+//     console.log(record);
+// })
 db.in('people').insert(james);
+db.in('people').insert(james2);
 db.in('people').insert(bob);
+db.in('people').createIndex('name');
+const record = db.in('people').getByIndex('name', 'James');
 // const recordA = db.in('people').findWhere({ address: { state: 'CA' } });
 // const recordB = db.in('people').findWhere({ address: { city: 'Palo Alto' } });
 // const recordC = db.in('people').where('hobbies').contains('dancing');
 
-// console.log(recordA);
-// console.log(recordB);
-// console.log(recordC);
+console.log(record);
