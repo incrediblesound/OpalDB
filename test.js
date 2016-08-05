@@ -12,7 +12,7 @@ const person = new opal.Schema({
     hobbies: 'ARRAY'
 })
 
-const Person = opal.Model(person);
+const Person = opal.model(person);
 
 const james = new Person({
     name: 'James',
