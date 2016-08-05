@@ -24,6 +24,21 @@ const joe = new PersonModel({
   hobbies: ['soccer', 'baseball']
 })
 ```
+The schema does simple validation and the model provides an onBeforeSave hook.
+
+```javascript
+const bob = new PersonModel({
+  name: 'Bob',
+  age: 23,
+  hobbies: 'Baskeball, etc'
+})
+// The above code will throw an error because hobbies is not an array.
+
+UserModel.onBeforeSave((record) => {
+  record.password = hashAndSalt(record.password);
+})
+// Now our users will have secure passwords.
+```
 
 Tables
 ------
@@ -57,5 +72,7 @@ You can query by id or match on the properties of the record.
 ```javascript
 db.in('people').getById(0); // returns Joe
 
-db.in('people').findWhere({ name: 'Joe Shmoe' }); // also returns Joe...
+db.in('people').findWhere({ name: 'Joe Shmoe' }); // also returns Joe
+
+db.in('people').where('hobbies').contains('soccer'); // Joe again...
 ```
