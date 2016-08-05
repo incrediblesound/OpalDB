@@ -43,9 +43,11 @@ db.in('people').insert(james);
 db.in('people').insert(james2);
 db.in('people').insert(bob);
 db.in('people').createIndex('name');
+db.in('people').delete(1);
 const record = db.in('people').getByIndex('name', 'James');
 // const recordA = db.in('people').findWhere({ address: { state: 'CA' } });
 // const recordB = db.in('people').findWhere({ address: { city: 'Palo Alto' } });
 // const recordC = db.in('people').where('hobbies').contains('dancing');
 
 console.log(record);
+console.log(db.tables.people)

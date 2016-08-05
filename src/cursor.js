@@ -10,6 +10,7 @@ class Cursor {
     }
     findWhere(props){
         return this.table.records.filter((record) => {
+            if(!record) return false;
             return compareObjects(record, props);
         })
     }
@@ -31,6 +32,29 @@ class Cursor {
             throw new Error(`Secondary index "${index}" does not exist.`);
         }
         return this.table.indexes[index][value];
+    }
+    delete(id){
+        let index = null;
+        delete this.table.idIndex[id];
+        if(this.table.records[id].id === id){
+            index = id;
+        } else {
+            for(var i = 0, l = this.table.records.length; i < l; i++){
+                if(id === this.table.records[i].id){
+                    index = i;
+                    break;
+                }
+            }
+        }
+        if(!index) throw new Error(`No record with id ${id} found.`);
+        let deletedRecord = this.table.records[index];
+        this.table.records[index] = null;
+        this.table.indexKeys.forEach((key) => {
+            this.table.indexes[key][deletedRecord[key]] = this.table.indexes[key][deletedRecord[key]].filter((record) => {
+                return record.id !== deletedRecord.id;
+            })
+        })
+        this.db.trigger(this.table.name, 'delete', deletedRecord);
     }
 }
 

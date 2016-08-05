@@ -5,6 +5,7 @@ class Query {
     }
     contains(item){
         return this.table.records.filter((record) => {
+            if(!record) return false;
             return contains(record[this.key], item);
         })
     }

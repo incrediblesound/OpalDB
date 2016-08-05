@@ -32,6 +32,7 @@ class Table {
         this.indexKeys.push(key);
         this.indexes[key] = {};
         this.records.forEach((record) => {
+            if(!record) return;
             this.indexes[key][record[key]] = this.indexes[key][record[key]] || []
             this.indexes[key][record[key]].push(record);
         })

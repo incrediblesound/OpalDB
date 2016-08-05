@@ -75,4 +75,16 @@ db.in('people').getById(0); // returns Joe
 db.in('people').findWhere({ name: 'Joe Shmoe' }); // also returns Joe
 
 db.in('people').where('hobbies').contains('soccer'); // Joe again...
+
+db.in('people').delete(0); // deletes Joe
+```
+
+Secondary indexes
+-----------------
+
+You can create an index from any attribute on a record.
+
+```javascript
+db.in('people').createIndex('name');
+db.in('people').getByIndex('name', 'Joe'); // returns all the people named Joe
 ```
