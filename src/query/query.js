@@ -3,10 +3,14 @@ class Query {
     this.key = key
     this.table = table
   }
+  equals (value) {
+    return this.table.records.filter((record) => {
+      return record && record[this.key] === value
+    })
+  }
   contains (item) {
     return this.table.records.filter((record) => {
-      if (!record) return false
-      return contains(record[this.key], item)
+      return record && contains(record[this.key], item)
     })
   }
 }
