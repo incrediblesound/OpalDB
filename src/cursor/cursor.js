@@ -22,6 +22,9 @@ class Cursor {
     this.db.trigger(this.table.name, 'insert', data)
   }
   listen (operation, cb) {
+    if(['insert','update','delete'].indexOf(operation) < 0){
+      throw new Error(`There is no listener available for operation "${operation}"`)
+    }
     this.db.listeners[this.table.name][operation].push(cb)
   }
   createIndex (key) {
