@@ -22,7 +22,7 @@ class Opal {
   }
   in (tableName) {
     if (this.tables[tableName] === undefined) {
-      throw new Error(`There is not table with the name ${tableName}.`)
+      throw new Error(`There is no table with the name ${tableName}.`)
     }
     return new Cursor(this, this.tables[tableName])
   }
