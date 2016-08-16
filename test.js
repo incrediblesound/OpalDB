@@ -2,7 +2,7 @@ const opal = require('./main')
 
 const db = new opal.Database()
 
-const person = new opal.Schema({
+const person = new opal.Schema('person', {
   name: 'STRING',
   age: 'NUMBER',
   address: {
@@ -35,7 +35,7 @@ const bob = new Person({
   hobbies: ['sports', 'dancing']
 })
 
-db.addTable('people')
+db.addTable('people', person)
 // db.in('people').listen('insert', (record) => {
 //     console.log(record)
 // })
@@ -43,11 +43,11 @@ db.in('people').insert(james)
 db.in('people').insert(james2)
 db.in('people').insert(bob)
 db.in('people').createIndex('name')
-db.in('people').delete(1)
+// db.in('people').delete(1)
 const record = db.in('people').getByIndex('name', 'James')
+const record2 = db.in('people').where('name').lessThan(30)
 // const recordA = db.in('people').findWhere({ address: { state: 'CA' } })
 // const recordB = db.in('people').findWhere({ address: { city: 'Palo Alto' } })
 // const recordC = db.in('people').where('hobbies').contains('dancing')
 
-console.log(record)
-console.log(db.tables.people)
+console.log(record2)

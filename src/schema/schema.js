@@ -1,5 +1,8 @@
+const constants = require('./constants')
+
 class Schema {
-  constructor (layout) {
+  constructor (name, layout) {
+    this.name = name
     this.layout = layout
     this.data = null
     this.beforeSave = null
@@ -28,9 +31,9 @@ function isObject (value) {
 }
 
 const isValidMap = {
-  'STRING': isString,
-  'NUMBER': isNumber,
-  'ARRAY': isArray
+  [constants.STRING]: isString,
+  [constants.NUMBER]: isNumber,
+  [constants.ARRAY]: isArray
 }
 
 function recordIsValid (record, layout) {
