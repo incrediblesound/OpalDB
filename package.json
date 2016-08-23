@@ -1,6 +1,6 @@
 {
   "name": "opaldb",
-  "version": "1.0.0",
+  "version": "0.8.1",
   "description": "A minimal in-memory database with zero dependencies.",
   "main": "main.js",
   "directories": {

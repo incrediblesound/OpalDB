@@ -13,10 +13,10 @@ class Table {
   insert (record) {
     if (!record.schema || !(record.schema instanceof Schema)) {
       throw new Error('Record is not an instance of an Opal schema.')
-    } else if(record.schema.name !== this.schema.name){
+    } else if (record.schema.name !== this.schema.name) {
       throw new Error(`Record of type "${record.schema.name}" inserted into table of type "${this.schema.name}". `)
     }
-    
+
     if (record.beforeSave) {
       record.beforeSave()
     }

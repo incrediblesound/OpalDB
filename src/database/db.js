@@ -1,5 +1,6 @@
 const Table = require('../table/table')
 const Cursor = require('../cursor/cursor')
+const Schema = require('../schema/schema')
 
 class Opal {
   constructor () {
@@ -7,8 +8,8 @@ class Opal {
     this.listeners = {}
   }
   addTable (name, schema) {
-    if (!name || typeof name !== 'string') {
-      throw new Error(`The addTable method requires a table name that is a string.`)
+    if (!name || !schema || !schema instanceof Schema) {
+      throw new Error(`The addTable method requires a table name and a valid schema instance.`)
     }
     if (this.tables[name] !== undefined) {
       throw new Error(`A table with the name ${name} already exists`)

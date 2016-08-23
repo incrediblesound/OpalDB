@@ -22,7 +22,7 @@ class Cursor {
     this.db.trigger(this.table.name, 'insert', data)
   }
   listen (operation, cb) {
-    if(['insert','update','delete'].indexOf(operation) < 0){
+    if (['insert', 'update', 'delete'].indexOf(operation) < 0) {
       throw new Error(`There is no listener available for operation "${operation}"`)
     }
     this.db.listeners[this.table.name][operation].push(cb)
@@ -49,11 +49,14 @@ class Cursor {
         }
       }
     }
-    if (!index) throw new Error(`No record with id ${id} found.`)
+    if (index === null) {
+      this.db.trigger(this.table.name, 'delete', null)
+    }
     let deletedRecord = this.table.records[index]
     this.table.records[index] = null
     this.table.indexKeys.forEach((key) => {
-      this.table.indexes[key][deletedRecord[key]] = this.table.indexes[key][deletedRecord[key]].filter((record) => {
+      const index = this.table.indexes[key][deletedRecord[key]]
+      this.table.indexes[key][deletedRecord[key]] = index.filter((record) => {
         return record.id !== deletedRecord.id
       })
     })
