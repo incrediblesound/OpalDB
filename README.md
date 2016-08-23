@@ -1,5 +1,6 @@
 OpalDB
 =======
+[![Build Status](https://travis-ci.org/incrediblesound/OpalDB.svg?branch=master)](https://travis-ci.org/incrediblesound/OpalDB)  
 OpalDB is a minimal in-memory database with zero dependencies written in JavaScript for Node.js. It is in the early stages of development and should not be considered production ready.
 
 OpalDB is made to uphold two basic principles. The first is that the codebase is simple, easy to understand and has no external dependencies. The second is that the data should be correct. Every table in OpalDB requires a schema and any operation that doesn't make sense for that schema should throw an error.
