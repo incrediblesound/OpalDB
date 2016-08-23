@@ -12,6 +12,28 @@ function typeIsNumber(type){
   return type === constants.NUMBER
 }
 
+function fetchStoredValue(record, key){
+  if(!record){
+    return false
+  } else if(typeof key === 'string'){
+    return record[key]
+  } else if(Array.isArray(key)){
+    return key.reduce((acc, curr) => {
+      return acc[curr]
+    }, record)
+  }
+}
+
+function fetchTypeFromLayout(layout, key){
+  if(Array.isArray(key)){
+    return key.reduce((acc, curr) => {
+      return acc[curr]
+    }, layout)
+  } else {
+    return layout[key]
+  }
+}
+
 class Query {
   constructor (key, table) {
     this.key = key
@@ -21,42 +43,49 @@ class Query {
     if(typeof value !== 'number'){
       throw new Error('Query "lessThan" called with non-number value.')
     }
-    const type = this.table.schema.layout[this.key]
+    
+    const type = fetchTypeFromLayout(this.table.schema.layout, this.key)
     if(!typeIsNumber(type)){
       throw new Error('Query "lessThan" may only be used with numbers.')
     }
     return this.table.records.filter((record) => {
-      return record && record[this.key] < value
+      const storedValue = fetchStoredValue(record, this.key);
+      return storedValue && storedValue < value
     })
   }
   greaterThan(value){
     if(typeof value !== 'number'){
       throw new Error('Query "greaterThan" called with non-number value.')
     }
-    const type = this.table.schema.layout[this.key]
+
+    const type = fetchTypeFromLayout(this.table.schema.layout, this.key)
     if(!typeIsNumber(type)){
       throw new Error('Query "lessThan" may only be used with numbers.')
     }
     return this.table.records.filter((record) => {
-      return record && record[this.key] > value
+      const storedValue = fetchStoredValue(record, this.key);
+      return storedValue && storedValue > value
     })
   }
   equals (value) {
-    const type = this.table.schema.layout[this.key]
+    const type = fetchTypeFromLayout(this.table.schema.layout, this.key)
     if(typeIsArray(type)){
       throw new Error('Query "equals" can not be used with ARRAY values.')
     }
+    const storedValue = fetchStoredValue(record, this.key);
     return this.table.records.filter((record) => {
-      return record && record[this.key] === value
+      const storedValue = fetchStoredValue(record, this.key);
+      return storedValue && storedValue === value
     })
   }
   contains (item) {
-    const type = this.table.schema.layout[this.key]
+    const type = fetchTypeFromLayout(this.table.schema.layout, this.key)
     if(!typeIsNumber(type)){
       throw new Error('Query "contains" may be used only with ARRAY values.')
     }
     return this.table.records.filter((record) => {
-      return record && contains(record[this.key], item)
+      const storedValue = fetchStoredValue(record, this.key);
+      return storedValue && contains(storedValue, item)
     })
   }
 }

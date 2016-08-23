@@ -6,7 +6,7 @@ Models
 ------
 First make a schema for your records, then convert that schema into a model, and then create records.
 ```javascript
-const opal = require('opal');
+const opal = require('opal')
 const Schema = opal.Schema;
 const Model = opal.Model;
 
@@ -16,7 +16,7 @@ const person = new Schema({
   hobbies: 'ARRAY'
 })
 
-const PersonModel = opal.model(person);
+const PersonModel = opal.model(person)
 
 const joe = new PersonModel({
   name: 'Joe Shmoe',
@@ -35,7 +35,7 @@ const bob = new PersonModel({
 // The above code will throw an error because hobbies is not an array.
 
 UserModel.onBeforeSave((record) => {
-  record.password = hashAndSalt(record.password);
+  record.password = hashAndSalt(record.password)
 })
 // Now our users will have secure passwords.
 ```
@@ -46,11 +46,11 @@ Tables
 First create a database, then add a table to it, then insert records into the table.
 
 ```javascript
-const db = new opal.Database();
+const db = new opal.Database()
 
-db.addTable('people');
+db.addTable('people')
 
-db.in('people').insert(joe);
+db.in('people').insert(joe)
 ```
 
 Events
@@ -60,23 +60,42 @@ You can add listeners for insert, update and delete.
 
 ```javascript
 db.in('people').listen('insert', (record) => {
-  console.log(record);
+  console.log(record)
 })
 ```
 
 Queries
 -------
 
-You can query by id or match on the properties of the record.
+Queries at the table level include getById and findWhere. The former is a quick table lookup
+and the latter is an expensive match between the records in the database and the object passed into
+the findWhere function. You can also delete by index which is fairly straightforward.
 
 ```javascript
-db.in('people').getById(0); // returns Joe
+db.in('people').getById(0) // returns Joe
 
-db.in('people').findWhere({ name: 'Joe Shmoe' }); // also returns Joe
+db.in('people').findWhere({ name: 'Joe Shmoe' }) // also returns Joe
 
-db.in('people').where('hobbies').contains('soccer'); // Joe again...
+db.in('people').delete(0) // deletes Joe
+```
+Use the 'where' method to return a query on a property of the records in a specific table.
+The 'where' method returns a query object that has type specific methods for matching records.
+```javascript
 
-db.in('people').delete(0); // deletes Joe
+// .contains() only works with array properties
+db.in('people').where('hobbies').contains('soccer')
+
+// .lessThan() and .greaterThan() work with number properties
+db.in('people').where('age').lessThan(30)
+
+// .equals() works with numbers and string but not arrays
+db.in('people').where('name').equals('Joe')
+
+```
+For nested records, the 'where' method can take an array of properties.
+
+```javascript
+db.in('people').where(['address', 'city']).equals('Palo Alto')
 ```
 
 Secondary indexes
@@ -85,6 +104,6 @@ Secondary indexes
 You can create an index from any attribute on a record.
 
 ```javascript
-db.in('people').createIndex('name');
-db.in('people').getByIndex('name', 'Joe'); // returns all the people named Joe
+db.in('people').createIndex('name')
+db.in('people').getByIndex('name', 'Joe') // returns all the people named Joe
 ```
