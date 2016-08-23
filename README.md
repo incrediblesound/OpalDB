@@ -4,6 +4,20 @@ OpalDB is a minimal in-memory database with zero dependencies written in JavaScr
 
 OpalDB is made to uphold two basic principles. The first is that the codebase is simple, easy to understand and has no external dependencies. The second is that the data should be correct. Every table in OpalDB requires a schema and any operation that doesn't make sense for that schema should throw an error.
 
+Getting Started
+------
+OpalDB is an NPM package, so install with
+```shell
+npm install opaldb --save
+```
+and import the package
+```javascript
+const opal = require('opaldb')
+
+// exposes Database, Schema and model
+
+```
+
 Models
 ------
 First make a schema for your records, then convert that schema into a model, and then create records.
