@@ -7,7 +7,7 @@ function opalModel (schema) {
       this.data = data
     }
     onBeforeSave (cb) {
-      this.beforeSave = cb.bind(null, this.data)
+      return this.beforeSave = cb.bind(null, this.data)
     }
   }
 }

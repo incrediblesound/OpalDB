@@ -1,0 +1,27 @@
+{
+  "name": "opaldb",
+  "version": "1.0.0",
+  "description": "A minimal in-memory database with zero dependencies.",
+  "main": "main.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^3.0.2"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/incrediblesound/OpalDB.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/incrediblesound/OpalDB/issues"
+  },
+  "homepage": "https://github.com/incrediblesound/OpalDB#readme"
+}
