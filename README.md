@@ -26,6 +26,11 @@ const opal = require('opal')
 const Schema = opal.Schema;
 const Model = opal.Model;
 
+/*
+ * Possible value types are 'STRING', 'NUMBER', 'ARRAY'
+ * currently no support for required properties
+ */
+
 const person = new Schema({
   name: 'STRING',
   age: 'NUMBER',
