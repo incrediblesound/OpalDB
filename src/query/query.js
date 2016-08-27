@@ -1,5 +1,3 @@
-const values = require('../schema/values')
-
 function fetchStoredValue (record, key) {
   if (!record) {
     return false
@@ -11,8 +9,6 @@ function fetchStoredValue (record, key) {
     }, record)
   }
 }
-
-/* End Helpers */
 
 class Query {
   constructor (key, table, ValueConstructor) {

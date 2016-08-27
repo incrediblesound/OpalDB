@@ -45,7 +45,9 @@ class OpalArray {
     return this.data.indexOf(value) >= 0
   }
   equals (value) {
-    for (let i = this.data.length, l = value.length; i < l; i++) {
+    if (value.length !== this.data.length) return false
+
+    for (let i = 0, l = value.length; i < l; i++) {
       if (this.data[i] !== value[i]) {
         return false
       }
