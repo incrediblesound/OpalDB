@@ -31,17 +31,17 @@ class Cursor {
   }
   update (id, value) {
     let record = this.table.records[id]
-    let oldIndex = record.name
-    let newIndex = value.name
 
     this.table.schema.validate(value)
-    Object.assign(record, value)
     for (let key in this.table.indexes) {
+      let oldIndex = record[key]
+      let newIndex = value[key]
       if (this.table.indexes[key][oldIndex]) {
         this.table.indexes[key][newIndex] = this.table.indexes[key][oldIndex]
         delete this.table.indexes[key][oldIndex]
       }
     }
+    Object.assign(record, value)
     this.db.trigger(this.table.name, 'update', record)
   }
   listen (operation, cb) {
