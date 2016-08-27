@@ -4,15 +4,15 @@ const opal = require('../main')
 const db = new opal.Database()
 
 const person = new opal.Schema('person', {
-  name: 'STRING',
-  age: 'NUMBER',
+  name: opal.String,
+  age: opal.Number,
   address: {
-    houseNumber: 'NUMBER',
-    street: 'STRING',
-    city: 'STRING',
-    zipcode: 'NUMBER'
+    houseNumber: opal.Number,
+    street: opal.String,
+    city: opal.String,
+    zipcode: opal.Number
   },
-  hobbies: 'ARRAY'
+  hobbies: opal.Array
 })
 
 const Person = opal.model(person)

@@ -14,8 +14,16 @@ class Cursor {
       return compareObjects(record, props)
     })
   }
-  where (key) {
-    return new Query(key, this.table)
+  where (path) {
+    let ValueConstructor
+    if (Array.isArray(path)) {
+      ValueConstructor = path.reduce((acc, key) => {
+        return acc[key]
+      }, this.table.schema.layout)
+    } else {
+      ValueConstructor = this.table.schema.layout[path]
+    }
+    return new Query(path, this.table, ValueConstructor)
   }
   insert (record) {
     const data = this.table.insert(record)

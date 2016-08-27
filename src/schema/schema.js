@@ -1,5 +1,3 @@
-const constants = require('./constants')
-
 class Schema {
   constructor (name, layout) {
     this.name = name
@@ -14,41 +12,21 @@ class Schema {
   }
 }
 
-function isString (value) {
-  return typeof value === 'string'
-}
-
-function isArray (value) {
-  return Array.isArray(value)
-}
-
-function isNumber (value) {
-  return typeof value === 'number'
-}
-
 function isObject (value) {
   return !Array.isArray(value) && typeof value === 'object'
-}
-
-const isValidMap = {
-  [constants.STRING]: isString,
-  [constants.NUMBER]: isNumber,
-  [constants.ARRAY]: isArray
 }
 
 function recordIsValid (record, layout) {
   const layoutKeys = Object.keys(layout)
   layoutKeys.forEach((key) => {
     const recordValue = record[key]
-    const layoutValue = layout[key]
+    const valueConstructor = layout[key]
     if (!recordValue) {
-      return // fields are not required
-    } else if (isObject(layoutValue)) {
-      return recordIsValid(recordValue, layoutValue)
+      return
+    } else if (isObject(valueConstructor)) {
+      return recordIsValid(recordValue, valueConstructor)
     } else {
-      if (!isValidMap[layoutValue](recordValue)) {
-        throw new Error(`Record is invalid. Value ${recordValue} is not of type ${layoutValue}`)
-      }
+      new valueConstructor(recordValue).validate()
     }
   })
   return true

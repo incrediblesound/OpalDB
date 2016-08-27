@@ -1,4 +1,4 @@
-function opalModel (schema) {
+function model (schema) {
   return class {
     constructor (data) {
       schema.validate(data)
@@ -12,4 +12,4 @@ function opalModel (schema) {
   }
 }
 
-module.exports = opalModel
+module.exports = model
