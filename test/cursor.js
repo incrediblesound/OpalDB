@@ -52,7 +52,7 @@ describe('Cursor', () => {
           name: ['We are the Borg']
         })
       },
-      /Record is invalid. Value We are the Borg is not of type STRING/
+      Error
     )
   })
   it('Will update record into a table', () => {
