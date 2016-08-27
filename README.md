@@ -28,14 +28,15 @@ const Schema = opal.Schema;
 const Model = opal.Model;
 
 /*
- * Possible value types are 'STRING', 'NUMBER', 'ARRAY'
+ * Use the constructors exposed on the main opal object
+ * for types: String, Array, Number
  * currently no support for required properties
  */
 
 const person = new Schema({
-  name: 'STRING',
-  age: 'NUMBER',
-  hobbies: 'ARRAY'
+  name: opal.String,
+  age: opal.Number,
+  hobbies: opal.Array
 })
 
 const PersonModel = opal.model(person)
