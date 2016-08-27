@@ -60,7 +60,7 @@ books.update(cujo)
 books.update(shining)
 books.update(wake)
 
-describe('Cursor', () => {
+describe('Join', () => {
   it('Can perform joins on tables', () => {
     const resultA = books
       .join('authorId')
