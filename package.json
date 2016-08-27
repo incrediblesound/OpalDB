@@ -11,7 +11,7 @@
     "mocha": "^3.0.2"
   },
   "scripts": {
-    "test": "mocha test/module.js test/database.js test/schema.js test/cursor.js test/query.js"
+    "test": "mocha test/module.js test/database.js test/schema.js test/cursor.js test/query.js test/join.js"
   },
   "repository": {
     "type": "git",

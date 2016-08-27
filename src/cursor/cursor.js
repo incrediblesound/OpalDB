@@ -1,4 +1,5 @@
 const Query = require('../query/query')
+const Join = require('../join/Join')
 
 class Cursor {
   constructor (db, table) {
@@ -12,7 +13,7 @@ class Cursor {
     return this.table.records.filter((record) => {
       if (!record) return false
       return compareObjects(record, props)
-    })
+    }).map((record) => JSON.parse(JSON.stringify(record)))
   }
   where (path) {
     let ValueConstructor
@@ -28,6 +29,7 @@ class Cursor {
   insert (record) {
     const data = this.table.insert(record)
     this.db.trigger(this.table.name, 'insert', data)
+    return data
   }
   listen (operation, cb) {
     if (['insert', 'update', 'delete'].indexOf(operation) < 0) {
@@ -38,11 +40,22 @@ class Cursor {
   createIndex (key) {
     this.table.createIndex(key)
   }
+  update (id, newRecord) {
+    this.table.update(id, newRecord)
+  }
   getByIndex (index, value) {
     if (!this.table.indexes) {
       throw new Error(`Secondary index "${index}" does not exist.`)
     }
-    return this.table.indexes[index][value]
+    const record = this.table.indexes[index][value]
+    return JSON.parse(JSON.stringify(record))
+  }
+  join (key) {
+    return {
+      to: (table) => {
+        return new Join(this.table.records, key, this.db.tables[table])
+      }
+    }
   }
   delete (id) {
     let index = null

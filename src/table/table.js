@@ -30,7 +30,15 @@ class Table {
     })
     this.records.push(data)
     this.counter++
-    return data
+    return JSON.parse(JSON.stringify(data))
+  }
+  update (id, newRecord) {
+    if (id && typeof id === 'object' && !newRecord) {
+      newRecord = id
+      id = newRecord.id
+    }
+    const oldRecord = this.idIndex[id]
+    Object.assign(oldRecord, newRecord)
   }
   createIndex (key) {
     this.indexKeys.push(key)
