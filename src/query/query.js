@@ -21,39 +21,27 @@ class Query {
     this.ValueConstructor = ValueConstructor
   }
   lessThan (value) {
-    value = new ValueConstructor()
-    value.validate()
-
     return this.table.records.filter((record) => {
-      const storedValue = fetchStoredValue(record, this.key)
-      return value.lessThan(storedValue)
+      const storedValue = new this.ValueConstructor(fetchStoredValue(record, this.key))
+      return storedValue.lessThan(value)
     })
   }
   greaterThan (value) {
-    value = new ValueConstructor()
-    value.validate()
-
     return this.table.records.filter((record) => {
-      const storedValue = fetchStoredValue(record, this.key)
-      return value.greaterThan(storedValue)
+      const storedValue = new this.ValueConstructor(fetchStoredValue(record, this.key))
+      return storedValue.greaterThan(value)
     })
   }
   equals (value) {
-    value = new ValueConstructor()
-    value.validate()
-
     return this.table.records.filter((record) => {
-      const storedValue = fetchStoredValue(record, this.key)
-      return value.equals(storedValue)
+      const storedValue = new this.ValueConstructor(fetchStoredValue(record, this.key))
+      return storedValue.equals(value)
     })
   }
-  contains (item) {
-    value = new ValueConstructor()
-    value.validate()
-
+  contains (value) {
     return this.table.records.filter((record) => {
-      const storedValue = fetchStoredValue(record, this.key)
-      return value.contains(storedValue)
+      const storedValue = new this.ValueConstructor(fetchStoredValue(record, this.key))
+      return storedValue.contains(value)
     })
   }
 }
