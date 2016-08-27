@@ -72,6 +72,7 @@ describe('Join', () => {
       .to('authors')
       .where('name')
       .equals('Stephen King')
+    assert(resultA.length === 1 && resultA[0].name === "Finnegan's Wake")
     assert(resultB.length === 2)
   })
 })
