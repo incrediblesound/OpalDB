@@ -29,6 +29,21 @@ class Cursor {
     const data = this.table.insert(record)
     this.db.trigger(this.table.name, 'insert', data)
   }
+  update (id, value) {
+    let record = this.table.records[id]
+    let oldIndex = record.name
+    let newIndex = value.name
+
+    this.table.schema.validate(value)
+    Object.assign(record, value)
+    for (let key in this.table.indexes) {
+      if (this.table.indexes[key][oldIndex]) {
+        this.table.indexes[key][newIndex] = this.table.indexes[key][oldIndex]
+        delete this.table.indexes[key][oldIndex]
+      }
+    }
+    this.db.trigger(this.table.name, 'update', record)
+  }
   listen (operation, cb) {
     if (['insert', 'update', 'delete'].indexOf(operation) < 0) {
       throw new Error(`There is no listener available for operation "${operation}"`)
