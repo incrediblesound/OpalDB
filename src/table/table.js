@@ -40,6 +40,32 @@ class Table {
     const oldRecord = this.idIndex[id]
     Object.assign(oldRecord, newRecord)
   }
+  delete (id) {
+    let index = null
+    delete this.idIndex[id]
+    if (this.records[id].id === id) {
+      index = id
+    } else {
+      for (var i = 0, l = this.records.length; i < l; i++) {
+        if (id === this.records[i].id) {
+          index = i
+          break
+        }
+      }
+    }
+    if (index === null) {
+      this.db.trigger(this.name, 'delete', null)
+    }
+    let deletedRecord = this.records[index]
+    this.records[index] = null
+    this.indexKeys.forEach((key) => {
+      const index = this.indexes[key][deletedRecord[key]]
+      this.indexes[key][deletedRecord[key]] = index.filter((record) => {
+        return record.id !== deletedRecord.id
+      })
+    })
+    return deletedRecord
+  }
   createIndex (key) {
     this.indexKeys.push(key)
     this.indexes[key] = {}

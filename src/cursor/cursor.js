@@ -1,6 +1,11 @@
 const Query = require('../query/query')
 const Join = require('../join/Join')
 
+/* This is the class returned when the user selects a table like this:
+ * db.in('tableName'). It serves as an interface to basic table methods
+ * like insert and delete and also provides special methods for querying records.
+ */
+
 class Cursor {
   constructor (db, table) {
     this.db = db
@@ -58,29 +63,7 @@ class Cursor {
     }
   }
   delete (id) {
-    let index = null
-    delete this.table.idIndex[id]
-    if (this.table.records[id].id === id) {
-      index = id
-    } else {
-      for (var i = 0, l = this.table.records.length; i < l; i++) {
-        if (id === this.table.records[i].id) {
-          index = i
-          break
-        }
-      }
-    }
-    if (index === null) {
-      this.db.trigger(this.table.name, 'delete', null)
-    }
-    let deletedRecord = this.table.records[index]
-    this.table.records[index] = null
-    this.table.indexKeys.forEach((key) => {
-      const index = this.table.indexes[key][deletedRecord[key]]
-      this.table.indexes[key][deletedRecord[key]] = index.filter((record) => {
-        return record.id !== deletedRecord.id
-      })
-    })
+    const deletedRecord = this.table.delete(id)
     this.db.trigger(this.table.name, 'delete', deletedRecord)
   }
 }

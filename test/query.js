@@ -54,7 +54,7 @@ people.insert(jim)
 people.insert(bob)
 people.insert(jane)
 
-describe('Cursor', () => {
+describe('Query', () => {
   it('Has a contains function that matches on arrays', () => {
     const results = people.where('hobbies').contains('surfing')
     assert(results.length === 1 && results[0].name === 'Jane')
